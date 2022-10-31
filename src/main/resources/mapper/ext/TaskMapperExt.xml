@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boxpractice.taskmanage.mapper.ext.TaskMapperExt">
+
+	<select id="queryTask" resultType="com.boxpractice.taskmanage.bean.dto.TaskDto">
+		select
+		t.id,t.title,t.remark,t.priority,t.status,t.hospital_id,t1.employee_id
+		from task t left join task_assign t1
+		    on t.hospital_id = t1.hospital_id
+			and t.id = t1.task_id
+		<where>
+			<if test="hospitalId != null">
+				AND t.hospital_id = #{hospitalId}
+			</if>
+			<if test="employeeId != null">
+				AND t1.employee_id = #{employeeId}
+			</if>
+		</where>
+	</select>
+
+</mapper>
